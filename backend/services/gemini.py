@@ -18,8 +18,9 @@ Each mood:
 - Must be 1 word only
 - Must be **clear, emotional, or aesthetic** — like:
   "calm", "sad", "happy", "dark", "romantic", "nostalgic", "aesthetic", "hype", "dreamy", "chill", "cozy"
--Strictly Should be able to help generate music preference on spotify
-- ❌ Never include poetic phrases like "sun-drenched grace", "focused energy", "graceful power", etc.
+- Strictly should help generate music preferences on Spotify
+- ❌ Never include poetic phrases like "sun-drenched grace", "focused energy", etc.
+
 Format your response *exactly like this*:
 
 Description: "a girl standing under fairy lights in the rain"
@@ -42,32 +43,23 @@ Description: "{caption}"
         print("❌ Gemini error:", e)
         return ["unknown"]
 
+
 def get_songs_for_moods(moods):
     mood_str = ", ".join(moods)
     prompt = f"""
-You're a mood labeling assistant for a music-based app.
+You're a music recommendation expert.
 
-Given an image description, return the **top 3 emotional or aesthetic moods** it evokes.
+Suggest 5 Bollywood and 5 Hollywood songs that match the following mood(s): {mood_str}
 
-Each mood:
-- Must be 1 word only
-- Must be **clear, emotional, or aesthetic** — like:
-  "calm", "sad", "happy", "dark", "romantic", "nostalgic", "aesthetic", "hype", "dreamy", "chill", "cozy"
-- ❌ Never include poetic phrases like "sun-drenched grace", "focused energy", "graceful power", etc.
+Format:
 
-Format your response *exactly like this*:
+Bollywood:
+1. Song - Artist
+2. ...
 
-Description: "a girl standing under fairy lights in the rain"
-1. aesthetic
-2. romantic
-3. dreamy
-
-Description: "a crowded rock concert"
-1. hype
-2. loud
-3. intense
-
-Description: "{caption}"
+Hollywood:
+1. Song - Artist
+2. ...
 """
     try:
         res = model.generate_content(prompt)
