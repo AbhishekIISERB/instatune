@@ -86,7 +86,7 @@ function App() {
 
   return (
     <div className="App" style={{ padding: "2rem", fontFamily: "sans-serif" }}>
-      <h1>🎧 AI Music Chooser</h1>
+      <h1>🎧 InstaTune</h1>
       <input type="file" onChange={handleFileChange} accept="image/*" />
       <br />
       <button onClick={handleImageAnalyze} style={{ marginTop: "1rem" }}>
