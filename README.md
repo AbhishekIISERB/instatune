@@ -94,6 +94,6 @@ This project is licensed under the [MIT License](./LICENSE).
 
 ---
 
-✨ Made with passion by [Abhishek Singh](./https://github.com/AbhishekIISERB)
+✨ Made with passion by [Abhishek Singh](./)
 
 
