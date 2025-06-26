@@ -1,109 +1,42 @@
-body {
-  margin: 0;
-  background: #fafafa;
-  font-family: "Helvetica Neue", sans-serif;
-}
-
-.App {
-  max-width: 900px;
+#root {
+  max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
 }
 
-h1 {
-  background: linear-gradient(to right, #feda75, #d62976, #962fbf);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-size: 2.5rem;
-  margin-bottom: 2rem;
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
-button {
-  background: linear-gradient(to right, #feda75, #d62976, #962fbf);
-  border: none;
-  padding: 0.6rem 1.2rem;
-  color: white;
-  font-weight: bold;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: opacity 0.2s ease;
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-button:hover {
-  opacity: 0.85;
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
 }
 
-input[type="file"] {
-  margin-top: 1rem;
+.card {
+  padding: 2em;
 }
 
-.mood-select label {
-  display: inline-block;
-  margin: 0.5rem;
-  background: #eee;
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-.mood-select input[type="checkbox"] {
-  margin-right: 0.5rem;
-}
-
-.mood-select label:hover {
-  background: #ddd;
-}
-
-.song-grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1.2rem;
-  margin-top: 1rem;
-}
-
-.song-card {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
-  padding: 1rem;
-  width: 150px;
-  text-align: center;
-  transition: transform 0.2s ease;
-}
-
-.song-card:hover {
-  transform: translateY(-5px);
-}
-
-.song-card img {
-  width: 100px;
-  height: 100px;
-  border-radius: 10px;
-  object-fit: cover;
-  margin-bottom: 0.5rem;
-}
-
-.song-title {
-  font-weight: 600;
-  font-size: 1rem;
-  margin-bottom: 0.3rem;
-}
-
-.song-artist {
-  color: #666;
-  font-size: 0.85rem;
-  margin-bottom: 0.5rem;
-}
-
-.song-no-preview {
-  font-size: 0.8rem;
-  color: #aaa;
-}
-
-audio {
-  width: 100%;
-  margin-top: 0.3rem;
+.read-the-docs {
+  color: #888;
 }
