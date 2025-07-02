@@ -11,9 +11,22 @@ export default function Hero() {
         <button className="bg-white shadow-md px-4 py-2 rounded-full text-sm hover:shadow-lg">🌊 Share Your Vibe</button>
       </div>
 
-      <button className="mt-8 bg-black text-white px-6 py-3 rounded-full text-sm hover:bg-gray-800">
-        Sign in to get started
-      </button>
+      <div className="mt-6 flex flex-wrap justify-center gap-4">
+  <button
+    className="bg-black text-white px-6 py-3 rounded-full text-sm hover:bg-gray-800"
+  >
+    Sign in to get started
+  </button>
+
+  <a
+    href="/upload"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="bg-white text-black px-6 py-3 rounded-full text-sm shadow-md hover:shadow-lg border border-gray-300"
+  >
+    Upload without signing in
+  </a>
+      </div>
 
       <p className="mt-2 text-xs text-gray-400">Takes seconds to create your space</p>
     </section>
