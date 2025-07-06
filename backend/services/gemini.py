@@ -10,57 +10,63 @@ model = genai.GenerativeModel("models/gemini-1.5-flash-latest")
 
 def get_moods_from_caption(caption):
     prompt = f"""
-You're a mood labeling assistant for a music-based app.
+    You're a mood labeling assistant for a music-based app.
 
-Given an image description, return the **top 3 emotional or aesthetic moods** it evokes.
+    Given an image description, return the **top 3 emotional or aesthetic moods** it evokes.
 
-Each mood:
-- Must be 1 word only
-- Must be **clear, emotional, or aesthetic** — like:
-  "calm", "sad", "happy", "dark", "romantic", "nostalgic", "aesthetic", "hype", "dreamy", "chill", "cozy"
-- Strictly should help generate music preferences on Spotify
-- ❌ Never include poetic phrases like "sun-drenched grace", "focused energy", etc.
+    Each mood must:
+    - Be exactly **1 word** (no phrases)
+    - Be relevant to music vibes (like: calm, dark, chill, dreamy, romantic, hype, nostalgic, intense, soft, funky, etc.)
+    - Avoid abstract phrases like "graceful serenity" or "chaotic energy"
 
-Format your response *exactly like this*:
+    Example:
+    Description: "a girl dancing in the dark with neon lights"
+    1. hype
+    2. aesthetic
+    3. dark
 
-Description: "a girl standing under fairy lights in the rain"
-1. aesthetic
-2. romantic
-3. dreamy
-
-Description: "a crowded rock concert"
-1. hype
-2. loud
-3. intense
-
-Description: "{caption}"
-"""
+    Description: "{caption}"
+    """
     try:
         res = model.generate_content(prompt)
         moods = [line.strip("123.:- ").lower() for line in res.text.splitlines() if line.strip()]
         return moods[:3]
     except Exception as e:
         print("❌ Gemini error:", e)
-        return ["unknown"]
-
+        return ["aesthetic"]
 
 def get_songs_for_moods(moods):
     mood_str = ", ".join(moods)
     prompt = f"""
-You're a music recommendation expert.
+You're a music curation expert working for a vibe-based music app.
 
-Suggest 5 Bollywood and 5 Hollywood songs that match the following mood(s): {mood_str}
+    Given the mood(s): {mood_str}
 
-Format:
+    🎯 Your task:
+    Suggest **5 Bollywood** and **5 Hollywood** songs that best match the given mood(s).
 
-Bollywood:
-1. Song - Artist
-2. ...
+    📌 Important rules:
+    - Start with **Instagram-viral songs** (songs trending on Reels or Shorts).
+    - Then add vibe-matching songs that reflect the mood(s) aesthetically or emotionally.
+    - Ensure a good mix of **popularity + emotional accuracy**.
+    - Avoid instrumental tracks or movie background scores.
+    - Focus on full songs, not meme sounds or overly short clips.
 
-Hollywood:
-1. Song - Artist
-2. ...
-"""
+    📦 Output format (strict):
+    Bollywood:
+    1. Song Title - Artist
+    2. ...
+    3. ...
+    4. ...
+    5. ...
+
+    Hollywood:
+    1. Song Title - Artist
+    2. ...
+    3. ...
+    4. ...
+    5. ...
+    """
     try:
         res = model.generate_content(prompt)
         response = res.text.strip()
@@ -83,8 +89,19 @@ Hollywood:
         hollywood_songs = clean_gemini_song_lines("\n".join(holly_block))
 
         token = get_spotify_token()
-        enriched_bolly = [search_spotify_track(f"{s['title']} {s['artist']}", token) for s in bollywood_songs]
-        enriched_holly = [search_spotify_track(f"{s['title']} {s['artist']}", token) for s in hollywood_songs]
+        enriched_bolly = [
+            search_spotify_track(f"{s['title'].title()} {s['artist'].title()}", token) or
+            search_spotify_track(f"{s['title']} mood music", token) or
+            {"name": s['title'], "artist": s['artist'], "preview_url": None, "spotify_url": "", "album_cover": ""}
+            for s in bollywood_songs
+        ]
+
+        enriched_holly = [
+            search_spotify_track(f"{s['title'].title()} {s['artist'].title()}", token) or
+            search_spotify_track(f"{s['title']} mood music", token) or
+            {"name": s['title'], "artist": s['artist'], "preview_url": None, "spotify_url": "", "album_cover": ""}
+            for s in hollywood_songs
+        ]
 
         return {
             "mood": mood_str,
